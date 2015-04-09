@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
  * 
  */
 
+//Juan estuvo aqui
+
 public class Conectado_db {
     
     /*
