@@ -12,7 +12,4 @@ package model.nomina;
  */
 public class calculos {
     
-   
-    
-     
 }
