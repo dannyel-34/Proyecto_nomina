@@ -13,10 +13,14 @@ import otros.Conectado_db;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.nomina.calculos;
-import static sun.management.Agent.warning;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+
 
 /**
  *
@@ -76,7 +80,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         jButton28 = new javax.swing.JButton();
-        jButton26 = new javax.swing.JButton();
+        jButton34 = new javax.swing.JButton();
         login = new javax.swing.JPanel();
         jButton11 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
@@ -276,7 +280,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
             }
         });
         secretaria.add(jButton3);
-        jButton3.setBounds(190, 480, 100, 40);
+        jButton3.setBounds(50, 470, 100, 40);
 
         jButton13.setText("Atras");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
@@ -285,7 +289,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
             }
         });
         secretaria.add(jButton13);
-        jButton13.setBounds(460, 480, 100, 40);
+        jButton13.setBounds(170, 470, 100, 40);
 
         jPanel6.setBackground(new java.awt.Color(167, 240, 180));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE EMPLEADOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tempus Sans ITC", 1, 14))); // NOI18N
@@ -366,16 +370,16 @@ public class Formulario_empleado extends javax.swing.JFrame {
             }
         });
         secretaria.add(jButton28);
-        jButton28.setBounds(580, 480, 130, 40);
+        jButton28.setBounds(580, 470, 130, 40);
 
-        jButton26.setText("Actualizar");
-        jButton26.addActionListener(new java.awt.event.ActionListener() {
+        jButton34.setText("Generar PDF");
+        jButton34.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton26ActionPerformed(evt);
+                jButton34ActionPerformed(evt);
             }
         });
-        secretaria.add(jButton26);
-        jButton26.setBounds(320, 480, 100, 40);
+        secretaria.add(jButton34);
+        jButton34.setBounds(290, 470, 100, 40);
 
         getContentPane().add(secretaria);
         secretaria.setBounds(0, 0, 840, 570);
@@ -598,19 +602,19 @@ public class Formulario_empleado extends javax.swing.JFrame {
 
         jLabel8.setText("Desde");
         Mail.add(jLabel8);
-        jLabel8.setBounds(40, 110, 120, 14);
+        jLabel8.setBounds(40, 110, 120, 15);
 
         jLabel9.setText("Para");
         Mail.add(jLabel9);
-        jLabel9.setBounds(40, 170, 22, 14);
+        jLabel9.setBounds(40, 170, 22, 15);
 
         jLabel10.setText("Asunto");
         Mail.add(jLabel10);
-        jLabel10.setBounds(40, 220, 34, 14);
+        jLabel10.setBounds(40, 220, 35, 15);
 
         jTextField8.setText("jTextField8");
         Mail.add(jTextField8);
-        jTextField8.setBounds(160, 110, 320, 20);
+        jTextField8.setBounds(160, 110, 320, 19);
 
         jTextField9.setText("jTextField9");
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
@@ -619,11 +623,11 @@ public class Formulario_empleado extends javax.swing.JFrame {
             }
         });
         Mail.add(jTextField9);
-        jTextField9.setBounds(160, 160, 320, 20);
+        jTextField9.setBounds(160, 160, 320, 19);
 
         jTextField10.setText("jTextField10");
         Mail.add(jTextField10);
-        jTextField10.setBounds(160, 210, 320, 20);
+        jTextField10.setBounds(160, 210, 320, 19);
 
         jButton10.setText("Enviar");
         Mail.add(jButton10);
@@ -647,7 +651,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
             }
         });
         Mail.add(jComboBox2);
-        jComboBox2.setBounds(180, 30, 210, 20);
+        jComboBox2.setBounds(180, 30, 210, 24);
 
         jButton12.setText("Salir");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -656,7 +660,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
             }
         });
         Mail.add(jButton12);
-        jButton12.setBounds(580, 490, 80, 23);
+        jButton12.setBounds(580, 490, 80, 25);
 
         getContentPane().add(Mail);
         Mail.setBounds(0, 0, 700, 540);
@@ -977,7 +981,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
 
         jLabel35.setText("Ordenar por: ");
         jPanel8.add(jLabel35);
-        jLabel35.setBounds(20, 40, 70, 14);
+        jLabel35.setBounds(20, 40, 70, 15);
 
         jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione", "CODIGO", "NOMBRES Y APELLIDOS", "CARGO ", "TURNO", "AREA", "SUELDO", "BONIFICACION", "DESCUENTO", "NERO A PAGAR" }));
         jPanel8.add(jComboBox7);
@@ -1727,22 +1731,6 @@ public class Formulario_empleado extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton29ActionPerformed
 
-    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
-        Conectado_db sqlite = new Conectado_db();
-        Connection cn = sqlite.Conectar();
-        try {
-            Statement stmt = cn.createStatement();
-            String ins = "UPDATE CONTROL_PLANILLA SET = " + ", CODIGO = " + jTextField1 + ", NOMBRE = " + jTextField2 + ", CARGO = " + jTextField3 + ", SALARIO = " + jTextField3 + " WHERE ' );";
-            int r = stmt.executeUpdate(ins);
-            stmt.close();
-            cn.close();
-
-        } catch (SQLException sqle) {
-            JOptionPane.showMessageDialog(null, "Error al actualizar el registro");
-        }
-
-    }//GEN-LAST:event_jButton26ActionPerformed
-
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         Conectado_db sqlite = new Conectado_db();
         Connection cn = sqlite.Conectar();
@@ -1791,6 +1779,11 @@ public class Formulario_empleado extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jTextField11KeyTyped
+
+    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+ 
+              
+    }//GEN-LAST:event_jButton34ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1852,7 +1845,6 @@ public class Formulario_empleado extends javax.swing.JFrame {
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton25;
-    private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton27;
     private javax.swing.JButton jButton28;
     private javax.swing.JButton jButton29;
@@ -1861,6 +1853,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
     private javax.swing.JButton jButton31;
     private javax.swing.JButton jButton32;
     private javax.swing.JButton jButton33;
+    private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton35;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
