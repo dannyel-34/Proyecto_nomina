@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.nomina.calculos;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 
@@ -292,7 +293,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
         jButton13.setBounds(170, 470, 100, 40);
 
         jPanel6.setBackground(new java.awt.Color(167, 240, 180));
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE EMPLEADOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tempus Sans ITC", 1, 14))); // NOI18N
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO DE EMPLEADOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tempus Sans ITC", 1, 14), new java.awt.Color(0, 0, 0))); // NOI18N
         jPanel6.setLayout(null);
 
         jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -336,21 +337,25 @@ public class Formulario_empleado extends javax.swing.JFrame {
         jTextField1.setBounds(330, 70, 300, 30);
 
         jLabel4.setFont(new java.awt.Font("Tempus Sans ITC", 1, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("SALARIO");
         jPanel6.add(jLabel4);
         jLabel4.setBounds(70, 250, 90, 22);
 
         jLabel3.setFont(new java.awt.Font("Tempus Sans ITC", 1, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("CARGO");
         jPanel6.add(jLabel3);
         jLabel3.setBounds(70, 190, 70, 22);
 
         jLabel2.setFont(new java.awt.Font("Tempus Sans ITC", 1, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("NOMBRE Y APELLIDOS");
         jPanel6.add(jLabel2);
         jLabel2.setBounds(70, 130, 190, 22);
 
         jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("CODIGO");
         jPanel6.add(jLabel1);
         jLabel1.setBounds(70, 70, 80, 22);
@@ -359,9 +364,10 @@ public class Formulario_empleado extends javax.swing.JFrame {
         jPanel6.setBounds(50, 110, 720, 330);
 
         jLabel34.setFont(new java.awt.Font("Tempus Sans ITC", 1, 30)); // NOI18N
-        jLabel34.setText("REGISTRO DE EMPLEADOS");
+        jLabel34.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel34.setText("REGISTRO");
         secretaria.add(jLabel34);
-        jLabel34.setBounds(220, 30, 400, 30);
+        jLabel34.setBounds(330, 40, 180, 30);
 
         jButton28.setText("Control empleados");
         jButton28.addActionListener(new java.awt.event.ActionListener() {
@@ -370,7 +376,7 @@ public class Formulario_empleado extends javax.swing.JFrame {
             }
         });
         secretaria.add(jButton28);
-        jButton28.setBounds(580, 470, 130, 40);
+        jButton28.setBounds(640, 470, 130, 40);
 
         jButton34.setText("Generar PDF");
         jButton34.addActionListener(new java.awt.event.ActionListener() {
@@ -1781,7 +1787,27 @@ public class Formulario_empleado extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField11KeyTyped
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
- 
+    
+    Conectado_db sqlite = new Conectado_db();
+    Connection cn = sqlite.Conectar();
+    
+    String path = "C:\\Users\\WIN 7\\Documents\\NetBeansProjects\\Proyecto_nomina\\src\\Reportes\\nomina.jasper";
+    JasperReport jr = null;
+    
+        try {
+            jr = (JasperReport) JRLoader.loadObjectFromFile(path);
+            JasperPrint jp = JasperFillManager.fillReport(jr,null, cn);
+            JasperViewer jv = new JasperViewer(jp);
+            jv.setVisible(true);
+            jv.setTitle(path);
+             
+            
+            cn.close();
+        } catch (JRException ex) {
+            Logger.getLogger(Formulario_empleado.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Formulario_empleado.class.getName()).log(Level.SEVERE, null, ex);
+        }
               
     }//GEN-LAST:event_jButton34ActionPerformed
 
